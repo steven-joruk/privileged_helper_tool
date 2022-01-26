@@ -1,0 +1,13 @@
+[tasks.install]
+script = '''
+cp com.example.basic.plist /Library/LaunchDaemons/
+cp target/debug/examples/basic /Library/PrivilegedHelperTools/com.example.basic
+launchctl load /Library/LaunchDaemons/com.example.basic.plist
+'''
+
+[tasks.uninstall]
+script = '''
+launchctl unload /Library/LaunchDaemons/com.example.basic.plist
+rm /Library/LaunchDaemons/com.example.basic.plist
+rm /Library/PrivilegedHelperTools/com.example.basic
+'''

@@ -1,0 +1,5 @@
+/target
+/install.sh
+.DS_Store
+.idea
+Cargo.lock

@@ -1,0 +1,19 @@
+[package]
+name = "privileged_helper_tool"
+authors = ["Steven Joruk <steven@joruk.com>"]
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+description = "Useful traits for privileged helper tools on macOS"
+keywords = ["macOS", "privileged", "ipc"]
+
+[features]
+default = ["launchd", "authenticator"]
+launchd = []
+authenticator = ["security-framework"]
+
+[dependencies]
+security-framework = { version = "2.4", default-features = false, optional = true }
+thiserror = "1"
+tokio = { version = "1.3" }

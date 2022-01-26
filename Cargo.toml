@@ -1,0 +1,7 @@
+[workspace]
+members = [
+    "examples/basic",
+    "examples/client",
+    "examples/authenticating",
+    "privileged_helper_tool"
+]
