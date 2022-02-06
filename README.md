@@ -66,7 +66,8 @@ to use and high performance. I've not found that to be the case:
   to re-send state when the connection is resumed.
 * Diagnosing XPC connectivity issues can be difficult, you'll often just see
   that the connection was invalidated.
-* My benchmarks have shown UDS to be marginally faster both for connection
-  creation and message throughput at varying sizes.
+* [My benchmarks](https://github.com/steven-joruk/macos-ipc-benchmarks)
+  have shown UDS to be marginally faster for small messages sizes and
+  significantly faster for connection creation.
 * Lots of crates support UDS as a transport, or can be made to with very little
   effort.
