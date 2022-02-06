@@ -59,8 +59,10 @@ Support for these won't be implemented until a need arises:
 XPC is often recommended on Apple's forums and it's usually touted as being easy
 to use and high performance. I've not found that to be the case:
 
-* There have been several vulnerabilities with privileged helper tools using XPC.
-  Apple have only recently provided an easy way to authenticate clients and didn't back-port the API.
+* [There have been several vulnerabilities with privileged helper tools using XPC](https://wojciechregula.blog/post/learn-xpc-exploitation-part-1-broken-cryptography/),
+  it's been difficult even for the developers of security products to get right.
+  Apple have only recently [provided an easy way to authenticate clients](https://developer.apple.com/documentation/xpc/3755524-xpc_connection_set_peer_code_sig),
+  but didn't back-port the new function to older verions fof macOS.
 * XPC connections aren't guaranteed to be stable - launchd will sometimes kill
   XPC services without warning. You're expected to use a stateless protocol, or
   to re-send state when the connection is resumed.
