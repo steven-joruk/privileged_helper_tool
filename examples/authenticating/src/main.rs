@@ -33,7 +33,7 @@ async fn main() {
     );
 
     while let Ok((client, _addr)) = listener.accept().await {
-        tokio::spawn(async move { handle_client(client).await });
+        tokio::spawn(handle_client(client));
     }
 }
 
