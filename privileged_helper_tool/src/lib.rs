@@ -4,9 +4,9 @@
 #[cfg(feature = "authenticator")]
 mod authenticator;
 #[cfg(feature = "authenticator")]
-pub use authenticator::*;
+pub use authenticator::UnixStreamAuthenticator;
 
 #[cfg(feature = "launchd")]
 mod launchd;
 #[cfg(feature = "launchd")]
-pub use launchd::*;
+pub use launchd::LaunchDaemonListener;
