@@ -40,20 +40,18 @@ async fn main() {
 async fn handle_client(mut client: UnixStream) {
     println!("A client connected");
 
-    let allowed = !client
-        .matches_code_requirement(REQUIREMENT_TEXT)
-        .unwrap_or(false);
+    let (allowed, message) = match client.matches_code_requirement(REQUIREMENT_TEXT) {
+        Ok(true) => (true, "Hello there.".to_string()),
+        Ok(false) => (false, "Your code signing validation failed.".to_string()),
+        Err(e) => (false, format!("Your code signing validation failed: {e:?}")),
+    };
+
+    client.write_all(message.as_bytes()).await.unwrap();
 
     if !allowed {
-        client
-            .write_all(b"Go away, you're not signed.")
-            .await
-            .unwrap();
         println!("The client's code signature doesn't satisfy the requirement.");
         return;
     }
-
-    client.write_all(b"Hello there.").await.unwrap();
 
     println!("A client disconnected");
 }
