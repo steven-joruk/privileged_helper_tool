@@ -14,6 +14,6 @@ launchd = []
 authenticator = ["security-framework"]
 
 [dependencies]
-security-framework = { version = "2.4", default-features = false, optional = true }
-thiserror = "1"
-tokio = { version = "1.3" }
+security-framework = { version = "2.9.2", default-features = false, optional = true }
+thiserror = "1.0.57"
+tokio = { workspace  = true }
