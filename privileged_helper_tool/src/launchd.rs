@@ -3,6 +3,7 @@
 use std::{
     ffi::{c_void, CStr},
     os::{
+        fd::OwnedFd,
         raw::{c_char, c_int},
         unix::prelude::FromRawFd,
     },
@@ -58,10 +59,10 @@ pub trait LaunchDaemonListener {
             return Err(Error::TooManySockets(count));
         };
 
-        let fd = unsafe { *fds.offset(0_isize) };
+        let fd = unsafe { OwnedFd::from_raw_fd(*fds.offset(0_isize)) };
         unsafe { free(fds.cast()) };
 
-        let std_listener = unsafe { std::os::unix::net::UnixListener::from_raw_fd(fd) };
+        let std_listener = std::os::unix::net::UnixListener::from(fd);
         std_listener
             .set_nonblocking(true)
             .map_err(Error::SetNonBlocking)?;
