@@ -29,7 +29,7 @@ cargo build
 
 sudo cp target/debug/authenticating /Library/PrivilegedHelperTools/com.example.authenticating
 sudo cp examples/authenticating/com.example.authenticating.plist /Library/LaunchDaemons/
-sudo launchd load /LibraryLaunchDaemons/com.example.authenticating.plist
+sudo launchctl load /Library/LaunchDaemons/com.example.authenticating.plist
 
 # Creating a signed client
 cp target/debug/client target/debug/signed_client
@@ -39,12 +39,10 @@ codesign -s $YOUR_CERT_NAME target/debug/signed_client
 ## To do
 
 1. Explain how to diagnose issues
-1. Examples
+2. Support customising the code signing flags.
+3. Examples
    * [Shutdown](https://tokio.rs/tokio/topics/shutdown)
-   * Use tokio codecs
-   * Multiplexing
    * `SMJobBless`
-   * Protobuf
    * Improve the client so it can connect to either listener.
 
 ## Missing features
