@@ -6,4 +6,4 @@ publish = false
 
 [dependencies]
 privileged_helper_tool = { path = "../../privileged_helper_tool" }
-tokio = { workspace = true, features = ["io-util", "macros", "net", "rt"] }
+tokio = { workspace = true, features = ["io-util", "macros", "net", "rt-multi-thread"] }

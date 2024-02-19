@@ -8,8 +8,7 @@ use tokio::{
 /// Update this with your actual team ID, or whatever other verification you
 /// want to perform.
 /// See https://developer.apple.com/library/archive/documentation/Security/Conceptual/CodeSigningGuide/RequirementLang/RequirementLang.html
-const REQUIREMENT_TEXT: &str =
-    "anchor apple generic and certificate leaf[subject.OU] = \"MY_TEAM_ID\"";
+const REQUIREMENT_TEXT: &str = include_str!("../requirements.txt");
 
 #[tokio::main]
 async fn main() {
