@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: main
+
+jobs:
+  test:
+    name: Tests
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: build the client
+        run: cargo build -p client
+
+      - name: build and run the authenticating server, allowing clients by cdhash
+        run: |
+          cdhash=$(codesign -dvvv target/debug/client 2>&1 | grep CDHash= | sed 's/CDHash=//')
+          echo -n "cdhash H\"" > examples/authenticating/requirements.txt
+          echo -n $cdhash >> examples/authenticating/requirements.txt
+          echo \" >> examples/authenticating/requirements.txt
+
+          cargo b -p authenticating
+          sudo mkdir -p /Library/PrivilegedHelperTools
+          sudo cp target/debug/authenticating /Library/PrivilegedHelperTools/com.example.authenticating
+          sudo cp examples/authenticating/com.example.authenticating.plist /Library/LaunchDaemons/
+          sudo launchctl load /Library/LaunchDaemons/com.example.authenticating.plist
+
+      - name: verify the echo client can connect when the requirements match
+        run: |
+          target/debug/client | grep "Hello there."
+
+      - name: stop the server
+        run: sudo launchctl unload /Library/LaunchDaemons/com.example.authenticating.plist
+
+      - name: build and run the authenticating server, allowing clients by cdhash
+        run: |
+          echo "cdhash H\"0000000000000000000000000000000000000000\"" > examples/authenticating/requirements.txt
+          cargo b -p authenticating
+          sudo cp target/debug/authenticating /Library/PrivilegedHelperTools/com.example.authenticating
+          sudo launchctl load /Library/LaunchDaemons/com.example.authenticating.plist
+
+      - name: verify the echo client can't connect when the requirements don't match
+        run: |
+          target/debug/client | grep -v "Hello there."
